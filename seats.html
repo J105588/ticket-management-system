@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>座席選択</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="sidebar.css">
+  <link rel="stylesheet" href="seats.css">
+</head>
+<body>
+
+  <div id="sidebar-container"></div>
+
+  <div id="main-content">
+    <div class="page-header">
+      <span class="menu-btn" onclick="toggleSidebar()">&#9776;</span>
+      <div class="header-title-container">
+        <h1>座席選択</h1>
+        <p><span id="performance-info"></span></p>
+      </div>
+      <div id="admin-indicator" class="admin-mode-indicator" style="display: none;">管理者モード</div>
+    </div>
+    
+    <div class="container">
+      <button id="admin-login-btn" class="admin-login-btn" onclick="promptForAdminPassword()">管理者ログイン</button>
+
+      <main>
+        <div class="screen">舞台</div>
+        <div id="seat-map-container" class="seat-map-container"></div>
+        <div class="legend">
+          <div class="legend-item"><span class="seat-indicator" style="background: #28a745;"></span>&nbsp;予約可能</div>
+          <div class="legend-item"><span class="seat-indicator" style="background: #007bff;"></span>&nbsp;選択中</div>
+          <div class="legend-item"><span class="seat-indicator" style="background: #ffc107;"></span>&nbsp;確保/予約済</div>
+          <div class="legend-item"><span class="seat-indicator" style="background: #dc3545;"></span>&nbsp;要チェックイン</div>
+          <div class="legend-item"><span class="seat-indicator" style="background: #6c757d;"></span>&nbsp;チェックイン済</div>
+          <div class="legend-item"><span class="seat-indicator" style="background: #e9ecef;"></span>&nbsp;設定なし</div>
+        </div>
+        <button id="submit-button" class="submit-button" onclick="confirmReservation()">この席で予約する</button>
+      </main>
+    </div>
+  </div>
+
+  <!-- 設定パネル -->
+  <button class="settings-btn" onclick="toggleSettings()" id="settings-btn"></button>
+  <div class="overlay" id="overlay" onclick="closeSettings()"></div>
+  <div class="settings-panel" id="settings-panel">
+    <h4>設定</h4>
+    <div class="refresh-controls">
+      <button id="refresh-btn" class="refresh-btn" onclick="manualRefresh()">手動更新</button>
+      <div class="auto-refresh-toggle">
+        <span>自動更新</span>
+        <label class="switch">
+          <input type="checkbox" id="auto-refresh-toggle" checked onchange="toggleAutoRefresh()">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    <div id="last-update" class="last-update">最終更新: --:--</div>
+  </div>
+
+  <div id="loading-modal" class="modal" style="display: none;">
+    <div class="modal-content" style="text-align: center;">
+      <div class="spinner"></div>
+      <p>処理中です...</p>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="api.js"></script>
+  <script src="sidebar.js"></script>
+  <script src="seats-main.js"></script>
+</body>
+</html>
