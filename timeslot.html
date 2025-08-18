@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>時間帯選択</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+
+  <div id="sidebar-container"></div>
+
+  <div id="main-content">
+    <header class="page-header">
+      <button class="menu-btn" onclick="toggleSidebar()">&#9776;</button>
+      <h1><span id="group-name"></span> 時間帯選択</h1>
+    </header>
+
+    <main class="container">
+      <div id="timeslot-container">
+        <div class="loading">時間帯データを読み込み中...</div>
+      </div>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="api.js"></script>
+  <script src="sidebar.js"></script>
+  <script src="timeslot-schedules.js"></script>
+  <script>
+    // URLパラメータから組を取得
+    const urlParams = new URLSearchParams(window.location.search);
+    const group = urlParams.get('group');
+    
+    // 組名を表示
+    document.getElementById('group-name').textContent = isNaN(parseInt(group)) ? group : group + '組';
+    
+    // サイドバーを読み込み
+    loadSidebar();
+    
+    // 時間帯データを読み込み
+    loadTimeslots(group);
+    
+    // 時間帯選択関数
+    function selectTimeslot(day, timeslot) {
+      const currentMode = getCurrentMode();
+      
+      let targetPage = 'seats.html';
+      let additionalParams = '';
+      
+      if (currentMode === 'walkin') {
+        targetPage = 'walkin.html';
+      } else if (currentMode === 'admin') {
+        additionalParams = '&admin=true';
+      }
+      
+      const url = `${targetPage}?group=${encodeURIComponent(group)}&day=${day}&timeslot=${timeslot}${additionalParams}`;
+      window.location.href = url;
+    }
+    
+    // 時間帯データを読み込んで表示
+    function loadTimeslots(group) {
+      const container = document.getElementById('timeslot-container');
+      const timeslots = getAllTimeslotsForGroup(group);
+      
+      if (!timeslots || timeslots.length === 0) {
+        container.innerHTML = '<p class="description">この組に設定された公演時間帯がありません。</p>';
+        return;
+      }
+      
+      // 日ごとにグループ化
+      const timeslotsByDay = timeslots.reduce((acc, ts) => {
+        (acc[ts.day] = acc[ts.day] || []).push(ts);
+        return acc;
+      }, {});
+      
+      // HTML生成
+      let html = '';
+      for (let day in timeslotsByDay) {
+        html += `
+          <div class="timeslot-section">
+            <h2>${getDayName(day)}</h2>
+            <div class="grid-container">
+        `;
+        
+        for (let ts of timeslotsByDay[day]) {
+          html += `<a class="grid-item" href="javascript:void(0)" onclick="selectTimeslot('${ts.day}', '${ts.timeslot}')">${ts.displayName}</a>`;
+        }
+        
+        html += `
+            </div>
+          </div>
+        `;
+      }
+      
+      container.innerHTML = html;
+    }
+    
+    function getDayName(day) {
+      return day == 1 ? '1日目' : '2日目';
+    }
+  </script>
+</body>
+</html>
