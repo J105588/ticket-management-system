@@ -4,6 +4,7 @@
  */
 
 const TIMESLOT_SCHEDULES = {
+  // ... (中身は変更なし) ...
   "1": {
     "1": { "A": "10:00-10:55", "B": "11:35-12:30", "C": "13:10-14:05" },
     "2": { "D": "10:00-10:55", "E": "11:35-12:30", "F": "13:10-14:05" }
@@ -55,7 +56,10 @@ function getTimeslotDisplayName(group, day, timeslot) {
   return `${timeslot}時間帯 (${time})`;
 }
 
-function getAllTimeslotsForGroup(group) {
+
+// ★★★ 修正点 ★★★
+// この関数を他のファイルから import できるように、exportキーワードを追加します。
+export function getAllTimeslotsForGroup(group) {
   const groupSchedule = TIMESLOT_SCHEDULES[group.toString()];
   if (!groupSchedule) return [];
 
