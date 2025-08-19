@@ -1,41 +1,46 @@
 /**
- * GAS APIとの通信を行うモジュール (GETリクエスト対応版)
+ * GAS APIとの通信を行うモジュール (POSTリクエスト対応版)
  * config.jsに定義されたGAS_API_URLとdebugLogを使用します。
+ * POSTリクエストを利用してCORSの問題を回避します。
  */
 class GasAPI {
   /**
-   * GASのdoGet関数を呼び出すコアメソッド
+   * GASのdoPost関数を呼び出すコアメソッド
    * @param {string} functionName - 実行したいGAS側の関数名
    * @param {Array} params - その関数に渡す引数の配列
    * @returns {Promise<any>} - GASからの応答結果
    */
   static async call(functionName, params = []) {
     // config.jsのdebugLogを呼び出す
-    debugLog(`API Call (GET): ${functionName}`, params);
-    debugLog('CORSチェック: GAS側でAccess-Control-Allow-Originが設定されていることを確認してください。');
+    debugLog(`API Call (POST): ${functionName}`, params);
 
-    // 1. URLのクエリパラメータを組み立てる
-    const queryParams = new URLSearchParams();
-    queryParams.append('func', functionName);
-    
-    // 2. 引数の配列をJSON文字列に変換し、URLエンコードして追加
-    queryParams.append('params', JSON.stringify(params));
-    
-    // 3. セキュリティチェック用のoriginパラメータを追加
-    queryParams.append('origin', 'github');
+    // GASのウェブアプリURLをconfig.jsから取得
+    if (!window.GAS_API_URL) {
+      const errorMessage = "GASのAPI URLが定義されていません(GAS_API_URL)。config.jsを確認してください。";
+      console.error(errorMessage);
+      throw new Error(errorMessage);
+    }
 
-    // config.jsのGAS_API_URLを使ってリクエストURLを生成
-    const requestUrl = `${GAS_API_URL}?${queryParams.toString()}`;
-    debugLog('Request URL:', requestUrl);
-    
+    // 1. POSTで送信するデータオブジェクトを作成
+    const postData = {
+      func: functionName,
+      params: params
+    };
+
+    debugLog('Request Body:', postData);
+
     try {
-      // 4. fetchをGETリクエストとして実行（CORSモードを明示）
-      const response = await fetch(requestUrl, {
-        method: 'GET',
-        mode: 'cors',  // 明示的にCORSモードを指定（デフォルトだが安定化）
+      // 2. fetchをPOSTリクエストとして実行
+      const response = await fetch(GAS_API_URL, {
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json'  // 必要に応じて追加（CORSプリフライトで役立つ場合）
-        }
+          // GASのdoPostでリクエストボディを正しく受け取るための定型ヘッダー
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        // リクエストのボディに、JSONデータを文字列化して含める
+        body: JSON.stringify(postData),
+        // GASからのリダイレクトに自動で追従するための設定
+        redirect: 'follow'
       });
       
       if (!response.ok) {
@@ -45,21 +50,19 @@ class GasAPI {
       const data = await response.json();
       debugLog(`API Response: ${functionName}`, data);
 
-      // GAS側が返すエラーをハンドリング
+      // GAS側が返すカスタムエラーをハンドリング
       if (data.success === false) {
-        throw new Error(data.error || 'GAS側でエラーが発生しました。');
+        throw new Error(data.error || 'GAS側で処理エラーが発生しました。');
       }
       
       return data;
 
     } catch (error) {
-      // CORS特有のエラーを検知して詳細ログ出力
-      let errorMessage = error.message || '不明なエラー';
-      if (error.name === 'TypeError' && errorMessage.includes('Failed to fetch')) {
-        errorMessage = 'CORSポリシー違反の可能性が高いです。GAS側のdoGetでAccess-Control-Allow-Originヘッダーを追加し、再デプロイしてください。';
-      }
-      console.error(`API Error (${functionName}):`, errorMessage, error);  // 強化: 詳細ログ出力（空ログ防止）
-      throw new Error(`API呼び出しに失敗しました: ${errorMessage}`);  // 強化: 詳細メッセージ追加
+      // 通信全体のエラーをハンドリング
+      const errorMessage = error.message || '不明なエラー';
+      console.error(`API Error (${functionName}):`, errorMessage, error);
+      // エラーメッセージを呼び出し元にスローしてUIに表示させる
+      throw new Error(`API呼び出しに失敗しました: ${errorMessage}`);
     }
   }
   
