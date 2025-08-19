@@ -1,3 +1,4 @@
+alert("これはapi.jsのバージョン [2025-08-19 14:59] です。");
 /**
  * GAS APIとの通信を行うモジュール (POSTリクエスト対応版)
  * config.jsに定義されたGAS_API_URLとdebugLogを使用します。
