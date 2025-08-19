@@ -52,7 +52,7 @@ const sidebarHTML = `
 `;
 
 // サイドバーを読み込む関数
-function loadSidebar() {
+export function loadSidebar() {
   const container = document.getElementById('sidebar-container');
   if (container) {
     container.innerHTML = sidebarHTML;
@@ -61,7 +61,7 @@ function loadSidebar() {
 }
 
 // サイドバー開閉
-function toggleSidebar() {
+export function toggleSidebar() {
   const sidebar = document.getElementById("mySidebar");
   const main = document.getElementById("main-content");
   
