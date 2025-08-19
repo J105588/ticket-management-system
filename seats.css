@@ -255,99 +255,16 @@ input:checked + .slider:before {
   max-width: 45px;
 }
 
-.seat.available {
-  background: #28a745;
-  color: #fff;
-  cursor: pointer;
-}
-
-.seat.available:hover {
-  background: #218838;
-  transform: translateY(-2px);
-}
-
-.seat.selected {
-  background: #007bff;
-  color: #fff;
-  box-shadow: 0 0 12px 2px #007bff;
-  transform: translateY(-2px);
-}
-
-.seat.reserved,
-.seat.to-be-checked-in,
-.seat.checked-in,
-.seat.unavailable {
-  cursor: not-allowed;
-}
-
-.seat.reserved {
-  background: #ffc107;
-  color: #212529;
-}
-
-.seat.reserved .seat-name {
-  color: #212529;
-  text-shadow: none;
-}
-
-.seat.to-be-checked-in {
-  background: #dc3545;
-  color: #fff;
-}
-
-.seat.checked-in {
-  background: #6c757d;
-  color: #fff;
-}
-
-.seat.unavailable {
-  background: #e9ecef;
-  color: #6c757d;
-}
-
-.admin-login-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  padding: 6px 12px;
-  font-size: 12px;
-  cursor: pointer;
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  z-index: 10;
-}
-
-.check-in-btn {
-  position: absolute;
-  bottom: 1px;
-  padding: 1px 3px;
-  font-size: 9px;
-  cursor: pointer;
-  border: 1px solid #fff;
-  background: #007bff;
-  color: #fff;
-  border-radius: 3px;
-}
-
-.submit-button {
-  width: 100%;
-  padding: 15px;
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-.admin-mode-indicator {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  color: red;
-  font-weight: bold;
-}
+.seat.available { background: #28a745; color: #fff; cursor: pointer; }
+.seat.available:hover { background: #218838; transform: translateY(-2px); }
+.seat.selected { background: #007bff; color: #fff; box-shadow: 0 0 12px 2px #007bff; transform: translateY(-2px); }
+.seat.reserved, .seat.to-be-checked-in, .seat.checked-in, .seat.unavailable { cursor: not-allowed; }
+.seat.reserved { background: #ffc107; color: #212529; }
+.seat.reserved .seat-name { color: #212529; text-shadow: none; }
+.seat.to-be-checked-in { background: #dc3545; color: #fff; }
+.seat.checked-in { background: #6c757d; color: #fff; }
+.seat.unavailable { background: #e9ecef; color: #6c757d; }
+.admin-login-btn { position: absolute; top: 15px; right: 15px; padding: 6px 12px; font-size: 12px; cursor: pointer; background-color: #6c757d; color: white; border: none; border-radius: 5px; z-index: 10; }
+.check-in-btn { position: absolute; bottom: 1px; padding: 1px 3px; font-size: 9px; cursor: pointer; border: 1px solid #fff; background: #007bff; color: #fff; border-radius: 3px; }
+.submit-button { width: 100%; padding: 15px; font-size: 18px; font-weight: bold; color: white; background-color: #007bff; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; }
+.admin-mode-indicator { position: absolute; top: 15px; right: 15px; color: red; font-weight: bold; }
