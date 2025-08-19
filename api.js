@@ -47,7 +47,7 @@ class GasAPI {
 
     } catch (error) {
       console.error(`API Error (${functionName}):`, error);
-      throw error;
+      throw new Error(`API呼び出しに失敗しました: ${error.message || '不明なエラー'}`);  // 追加: 詳細なメッセージ
     }
   }
   
