@@ -23,7 +23,7 @@ class GasAPI {
     try {
       const response = await fetch(GAS_API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        headers: { 'Content-Type': 'application/json;charset=utf-8' },
         body: JSON.stringify(postData),
         redirect: 'follow'
       });
@@ -63,10 +63,6 @@ class GasAPI {
 
   static async assignWalkInSeat(group, day, timeslot) {
     return this._callApi('assignWalkInSeat', [group, day, timeslot]);
-  }
-
-  static async verifyAdminPassword(password) {
-    return this._callApi('verifyAdminPassword', [password]);
   }
 
   static async verifyModePassword(mode, password) {
