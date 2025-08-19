@@ -12,6 +12,7 @@ class GasAPI {
   static async call(functionName, params = []) {
     // config.jsのdebugLogを呼び出す
     debugLog(`API Call (GET): ${functionName}`, params);
+    debugLog('CORSチェック: GAS側でAccess-Control-Allow-Originが設定されていることを確認してください。');
 
     // 1. URLのクエリパラメータを組み立てる
     const queryParams = new URLSearchParams();
@@ -28,8 +29,14 @@ class GasAPI {
     debugLog('Request URL:', requestUrl);
     
     try {
-      // 4. fetchをGETリクエストとして実行
-      const response = await fetch(requestUrl);
+      // 4. fetchをGETリクエストとして実行（CORSモードを明示）
+      const response = await fetch(requestUrl, {
+        method: 'GET',
+        mode: 'cors',  // 明示的にCORSモードを指定（デフォルトだが安定化）
+        headers: {
+          'Content-Type': 'application/json'  // 必要に応じて追加（CORSプリフライトで役立つ場合）
+        }
+      });
       
       if (!response.ok) {
         throw new Error(`サーバーとの通信に失敗しました (HTTPステータス: ${response.status})`);
@@ -46,8 +53,13 @@ class GasAPI {
       return data;
 
     } catch (error) {
-      console.error(`API Error (${functionName}):`, error);
-      throw new Error(`API呼び出しに失敗しました: ${error.message || '不明なエラー'}`);  // 追加: 詳細なメッセージ
+      // CORS特有のエラーを検知して詳細ログ出力
+      let errorMessage = error.message || '不明なエラー';
+      if (error.name === 'TypeError' && errorMessage.includes('Failed to fetch')) {
+        errorMessage = 'CORSポリシー違反の可能性が高いです。GAS側のdoGetでAccess-Control-Allow-Originヘッダーを追加し、再デプロイしてください。';
+      }
+      console.error(`API Error (${functionName}):`, errorMessage, error);  // 強化: 詳細ログ出力（空ログ防止）
+      throw new Error(`API呼び出しに失敗しました: ${errorMessage}`);  // 強化: 詳細メッセージ追加
     }
   }
   
