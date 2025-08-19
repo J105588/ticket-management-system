@@ -2,6 +2,9 @@
  * サイドバー機能とモード管理
  */
 
+// GasAPIモジュールをインポート
+import GasAPI from './api.js';
+
 // サイドバーHTML
 const sidebarHTML = `
   <div id="mySidebar" class="sidebar">
@@ -121,7 +124,8 @@ function updateModeDisplay() {
   }
 }
 
-function showModeChangeModal() {
+// ★★★ 修正点: こちらの正しい関数に export を追加 ★★★
+export function showModeChangeModal() {
   try {
     const modal = document.getElementById('mode-change-modal');
     if (!modal) return;
@@ -144,7 +148,7 @@ function showModeChangeModal() {
   }
 }
 
-function closeModeModal() {
+export function closeModeModal() {
   try {
     const modal = document.getElementById('mode-change-modal');
     if (modal) {
@@ -155,7 +159,7 @@ function closeModeModal() {
   }
 }
 
-async function applyModeChange() {
+export async function applyModeChange() {
   try {
     const selectedModeRadio = document.querySelector('input[name="mode"]:checked');
     const passwordField = document.getElementById('mode-password');
@@ -212,45 +216,28 @@ function showMessage(message) {
   alert(message);
 }
 
-// HTMLドキュメントの読み込みが完了したら実行
+// --- イベントリスナーとグローバル登録 ---
+
+// HTMLのonclick属性から呼び出せるように、関数をwindowオブジェクトに登録
+window.toggleSidebar = toggleSidebar;
+window.showModeChangeModal = showModeChangeModal;
+window.applyModeChange = applyModeChange;
+window.closeModeModal = closeModeModal;
+
+
+// DOMContentLoadedはモジュールスクリプトでは不要な場合が多いですが、
+// 念のため残しつつ、より堅牢なリスナー設定にします。
 document.addEventListener('DOMContentLoaded', () => {
-    // id="menu-btn" の要素を取得
-    const menuBtn = document.getElementById('menu-btn');
-    // 要素が存在すれば、クリックされたら toggleSidebar 関数を呼び出すように設定
-    if (menuBtn) {
-        menuBtn.addEventListener('click', toggleSidebar);
-    }
+    // id="menu-btn" はサイドバーHTMLに含まれないため、
+    // 各ページのHTMLに存在するボタンにリスナーを設定するアプローチがより良い
+    // 現状はonclick属性で対応しているため、この中の処理は重複する可能性がある
 });
 
 // モーダル外クリックで閉じる
 document.addEventListener('click', function(event) {
   const modal = document.getElementById('mode-change-modal');
+  // modal.contains(event.target) はモーダルの内側をクリックしたかを判定します
   if (modal && event.target === modal) {
     closeModeModal();
   }
 });
-
-// onclick="showModeChangeModal()" から呼び出せるように export を付けます。
-export function showModeChangeModal() {
-  // パスワード入力用のプロンプトを表示
-  const password = prompt("モード変更用のパスワードを入力してください:", "");
-
-  // キャンセルされたり空の場合は何もしない
-  if (password === null || password === "") {
-    return;
-  }
-  
-  // ここでパスワードを検証する必要があるが、一旦アラートでどのモードに行きたいかを表示する
-  // 本来は GasAPI.verifyModePassword(mode, password) を呼び出す
-  alert(`入力されたパスワード: ${password}\nここでパスワードを検証し、適切なページに遷移します。`);
-
-  // TODO: パスワード検証とページ遷移のロジックを実装する
-  // 例:
-  // if (password === 'admin_pass') {
-  //   window.location.href = 'index.html?mode=admin';
-  // } else if (password === 'walkin_pass') {
-  //   window.location.href = 'index.html?mode=walkin';
-  // } else {
-  //   alert('パスワードが違います。');
-  // }
-}
