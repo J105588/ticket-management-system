@@ -9,7 +9,7 @@
 
 .header-title-container h1,
 .header-title-container p {
-  margin: 0;
+  margin: 0; /* マージンをゼロにする */
 }
 
 .screen {
@@ -26,33 +26,33 @@
 
 .seat-map-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* セクションを縦に並べる */
   align-items: center;
   gap: 5px;
   width: 100%;
-  overflow-x: auto;
+  overflow-x: auto; /* 水平スクロールを許可 */
   padding: 10px 0;
 }
 
 .seat-section {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* セクション内の行を縦に並べる */
   gap: 5px;
 }
 
 .seat-row {
-  display: flex;
-  justify-content: center;
+  display: flex; /* 各行は横に並ぶ */
+  justify-content: center; /* 中央揃え */
   gap: 5px;
 }
 
 .passage {
-  width: 30px;
+  width: 30px; /* 通路の幅 */
 }
 
 .legend {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* レジェンド要素をラップ */
   justify-content: center;
   gap: 10px 20px;
   margin: 25px 0;
@@ -71,6 +71,7 @@
   border-radius: 5px;
 }
 
+/* 設定パネル関連 */
 .settings-btn {
   position: fixed;
   bottom: 20px;
@@ -96,7 +97,7 @@
 }
 
 .settings-btn::before {
-  content: "⚙";
+  content: "⚙"; /* 設定アイコン */
 }
 
 .settings-panel {
@@ -105,7 +106,7 @@
   left: 20px;
   background: #fff;
   border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   padding: 15px;
   min-width: 250px;
   transform: scale(0);
@@ -165,7 +166,7 @@
 }
 
 .switch input {
-  opacity: 0;
+  opacity: 0; /* 非表示にする */
   width: 0;
   height: 0;
 }
@@ -195,11 +196,11 @@
 }
 
 input:checked + .slider {
-  background-color: #007bff;
+  background-color: #007bff; /* チェック時 */
 }
 
 input:checked + .slider:before {
-  transform: translateX(20px);
+  transform: translateX(20px); /* スライダーの移動 */
 }
 
 .last-update {
@@ -221,21 +222,21 @@ input:checked + .slider:before {
 }
 
 .overlay.show {
-  display: block;
+  display: block; /* 表示制御 */
 }
 
 .seat {
   border-radius: 5px;
-  display: flex;
+  display: flex; /* セル内で内容をフレックスで整列 */
   flex-direction: column;
-  justify-content: center;
+  justify-content: center; /* 中央揃え */
   align-items: center;
   font-weight: bold;
-  user-select: none;
+  user-select: none; /* 選択を禁止 */
   width: 50px;
   height: 50px;
   box-sizing: border-box;
-  transition: all 0.2s;
+  transition: all 0.2s; /* ホバー時の反応 */
   position: relative;
 }
 
@@ -248,23 +249,107 @@ input:checked + .slider:before {
   margin-top: 2px;
   font-weight: normal;
   color: #fff;
-  text-shadow: 0 0 3px rgba(0,0,0,0.7);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 45px;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+  overflow: hidden; /* オーバーフロー制御 */
+  text-overflow: ellipsis; /* テキストオーバーフロー */
+  white-space: nowrap; /* 改行禁止 */
+  max-width: 45px; /* 最大幅 */
 }
 
-.seat.available { background: #28a745; color: #fff; cursor: pointer; }
-.seat.available:hover { background: #218838; transform: translateY(-2px); }
-.seat.selected { background: #007bff; color: #fff; box-shadow: 0 0 12px 2px #007bff; transform: translateY(-2px); }
-.seat.reserved, .seat.to-be-checked-in, .seat.checked-in, .seat.unavailable { cursor: not-allowed; }
-.seat.reserved { background: #ffc107; color: #212529; }
-.seat.reserved .seat-name { color: #212529; text-shadow: none; }
-.seat.to-be-checked-in { background: #dc3545; color: #fff; }
-.seat.checked-in { background: #6c757d; color: #fff; }
-.seat.unavailable { background: #e9ecef; color: #6c757d; }
-.admin-login-btn { position: absolute; top: 15px; right: 15px; padding: 6px 12px; font-size: 12px; cursor: pointer; background-color: #6c757d; color: white; border: none; border-radius: 5px; z-index: 10; }
-.check-in-btn { position: absolute; bottom: 1px; padding: 1px 3px; font-size: 9px; cursor: pointer; border: 1px solid #fff; background: #007bff; color: #fff; border-radius: 3px; }
-.submit-button { width: 100%; padding: 15px; font-size: 18px; font-weight: bold; color: white; background-color: #007bff; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; }
-.admin-mode-indicator { position: absolute; top: 15px; right: 15px; color: red; font-weight: bold; }
+/* 座席の状態別のスタイル */
+.seat.available {
+  background: #28a745; /* 空き席 */
+  color: #fff;
+  cursor: pointer; /* ポインタ */
+}
+
+.seat.available:hover {
+  background: #218838; /* ホバー時 */
+  transform: translateY(-2px); /* スペース調整 */
+}
+
+.seat.selected {
+  background: #007bff; /* 選択された座席 */
+  color: #fff;
+  box-shadow: 0 0 12px 2px #007bff; /* ハイライト */
+  transform: translateY(-2px);
+}
+
+.seat.reserved,
+.seat.to-be-checked-in,
+.seat.checked-in,
+.seat.unavailable {
+  cursor: not-allowed; /* カーソルを変更 */
+}
+
+.seat.reserved {
+  background: #ffc107; /* 予約済み */
+  color: #212529; /* テキストカラー */
+}
+
+.seat.reserved .seat-name {
+  color: #212529; /* 予約済み状態の名前のカラー */
+  text-shadow: none; /* テキストシャドウを削除 */
+}
+
+.seat.to-be-checked-in {
+  background: #dc3545; /* チェックイン待ち */
+  color: #fff;
+}
+
+.seat.checked-in {
+  background: #6c757d; /* チェックイン済み */
+  color: #fff;
+}
+
+.seat.unavailable {
+  background: #e9ecef; /* 使用不可の座席 */
+  color: #6c757d;
+}
+
+.admin-login-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  background-color: #6c757d; /* 背景色 */
+  color: white;
+  border: none; /* ボーダーなし */
+  border-radius: 5px;
+  z-index: 10; /* 上に表示 */
+}
+
+.check-in-btn {
+  position: absolute;
+  bottom: 1px; /* 座席内 */
+  padding: 1px 3px;
+  font-size: 9px; /* 文字サイズ */
+  cursor: pointer;
+  border: 1px solid #fff; /* ボーダー */
+  background: #007bff; /* 背景色 */
+  color: #fff;
+  border-radius: 3px;
+}
+
+.submit-button {
+  width: 100%; /* 幅 */
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white; /* 文字色 */
+  background-color: #007bff; /* 背景色 */
+  border: none; 
+  border-radius: 5px; /* 角丸 */
+  cursor: pointer; /* ポインタ */
+  margin-top: 20px; /* 上部マージン */
+}
+
+.admin-mode-indicator {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: red; /* 管理者モードの色 */
+  font-weight: bold;
+}
