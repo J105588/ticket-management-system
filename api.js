@@ -91,3 +91,5 @@ static async verifyModePassword(mode, password) {
 static async getAllTimeslotsForGroup(group) {
     return this._callApi('getAllTimeslotsForGroup', [group]);
 }
+
+export default GasAPI;
