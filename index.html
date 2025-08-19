@@ -34,14 +34,15 @@
   </div>
 
   <script type="module">
-    // sidebar.js から、必要な関数だけをインポートする
-    import { loadSidebar, toggleSidebar } from './sidebar.js';
+  // sidebar.js から、必要な関数をすべてインポートする
+  import { loadSidebar, toggleSidebar, showModeChangeModal } from './sidebar.js'; // ★ showModeChangeModal を追加
 
-    // サイドバーを読み込んでページに配置する
-    loadSidebar();
+  // サイドバーを読み込んでページに配置する
+  loadSidebar();
 
-    // HTMLのonclick属性から呼び出せるように、関数をグローバルスコープ(window)に登録する
-    window.toggleSidebar = toggleSidebar;
-  </script>
+  // HTMLのonclick属性から呼び出せるように、関数をグローバルスコープ(window)に登録する
+  window.toggleSidebar = toggleSidebar;
+  window.showModeChangeModal = showModeChangeModal; // ★ 追加した関数も登録
+</script>
 </body>
 </html>
