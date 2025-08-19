@@ -47,12 +47,22 @@ function drawSeatMap(seatMap) {
   const container = document.getElementById('seat-map-container');
   container.innerHTML = ''; // 既存の座席マップをクリア
 
-  Object.values(seatMap).forEach(seat => {
+  // すべての座席をループして座席を描画
+  Object.entries(seatMap).forEach(([seatId, seat]) => {
     const seatElement = document.createElement('div');
-    seatElement.className = `seat ${seat.status}`;
-    seatElement.innerText = `Seat ${seat.id}`;
     
-    // 座席と対応する処理を追加
+    // seat.id を直接使用するのではなく、seatIdを利用
+    seatElement.className = `seat ${seat.status}`;
+    seatElement.innerText = `Seat ${seatId}`; // seatId（例: 'A1'）を表示します。
+
+    // イベントリスナーを追加
+    seatElement.onclick = () => {
+      if (seat.status === 'available') {
+        selectedSeats.push(seatId); // 選択された座席IDを追加
+        seatElement.classList.add('selected'); // 選択されたスタイルを追加
+      }
+    };
+
     container.appendChild(seatElement);
   });
 }
