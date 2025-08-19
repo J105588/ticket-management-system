@@ -3,6 +3,10 @@
  * config.jsに定義されたGAS_API_URLとdebugLogを使用します。
  * POSTリクエストを利用してCORSの問題を回避します。
  */
+function debugLog(message, data) {
+  console.log('[DEBUG]', message, data);
+}
+
 class GasAPI {
   /**
    * GASのdoPost関数を呼び出すコアメソッド
