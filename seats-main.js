@@ -30,6 +30,8 @@ window.onload = async () => {
     document.getElementById('submit-button').style.display = 'block';
   }
 
+  showLoader(true); // ロードインジケーターを表示
+
   try {
     const seatData = await GasAPI.getSeatData(GROUP, DAY, TIMESLOT, IS_ADMIN);
     
@@ -37,15 +39,18 @@ window.onload = async () => {
     console.log("Received seatData:", seatData);
 
     if (seatData.success === false) {
-      alert('データ読み込み失敗: ' + seatData.error);  // 修正: successに基づくチェック
+      alert('データ読み込み失敗: ' + seatData.error);
       return;
     }
     
-    // 必要に応じてseatData.dataの形式を確認
-    drawSeatMap(seatData.data); // データを描画する関数を呼び出す
+    // 正しいデータを使用
+    drawSeatMap(seatData.seatMap); // ここは seatData の正しい構造を確認して更新
+
     updateLastUpdateTime();
   } catch (error) {
     alert('サーバー通信失敗: ' + error.message);
+  } finally {
+    showLoader(false); // ロードインジケーターを非表示に
   }
 };
 
@@ -68,7 +73,7 @@ function drawSeatMap(seatMap) {
       if (seat.status === 'available') {
         selectedSeats.push(seatId); // 選択された座席IDを追加
         seatElement.classList.add('selected'); // 選択されたスタイルを追加
-        console.log("Selected seat:", seatId); // デバッグログ: 選択された座席IDを出力
+        console.log("Selected seat:", seatId);
       }
     };
 
@@ -79,5 +84,9 @@ function drawSeatMap(seatMap) {
 // ローダー表示制御
 function showLoader(visible) {
   const loader = document.getElementById('loading-modal');
-  loader.style.display = visible ? 'block' : 'none';
+  if (loader) {
+    loader.style.display = visible ? 'block' : 'none';
+  } else {
+    console.warn('Loader element not found');
+  }
 }
