@@ -76,12 +76,13 @@ function drawSeatMap(seatMap) {
 
   const layout = {
     main: { rows: ['A', 'B', 'C', 'D'], cols: 12, passageAfter: 6 },
-    sub:  { rows: ['E'], cols: 12, passageAfter: 6 }
+    sub:  { rows: ['E'], frontCols: 3, backCols: 3, passagePosition: 3 } // 更新: E列に3席×2の構成
   };
 
   // メインセクションの描画
   const mainSection = document.createElement('div');
   mainSection.className = 'seat-section';
+
   layout.main.rows.forEach(rowLabel => {
     const rowEl = document.createElement('div');
     rowEl.className = 'seat-row';
@@ -100,28 +101,37 @@ function drawSeatMap(seatMap) {
   });
   container.appendChild(mainSection);
 
-  // サブセクションの描画
+  // サブセクション (E行) の描画
   const subSection = document.createElement('div');
   subSection.className = 'seat-section';
+  
   layout.sub.rows.forEach(rowLabel => {
     const rowEl = document.createElement('div');
     rowEl.className = 'seat-row';
-    for (let i = 1; i <= layout.sub.cols; i++) {
+    
+    // E列の前半3席を描画
+    for (let i = 1; i <= layout.sub.frontCols; i++) {
       const seatId = rowLabel + i;
       const seatData = seatMap[seatId] || { id: seatId, status: 'unavailable', name: null };
       rowEl.appendChild(createSeatElement(seatData));
-      
-      if (i === layout.sub.passageAfter) {
-        const passage = document.createElement('div');
-        passage.className = 'passage'; // 通路の追加
-        rowEl.appendChild(passage);
-      }
     }
+
+    // 通路の追加
+    const passage = document.createElement('div');
+    passage.className = 'passage'; // E列の通路
+    rowEl.appendChild(passage);
+
+    // E列の後半3席を描画
+    for (let i = 1; i <= layout.sub.backCols; i++) {
+      const seatId = rowLabel + (layout.sub.frontCols + i); // 座席IDを更新
+      const seatData = seatMap[seatId] || { id: seatId, status: 'unavailable', name: null };
+      rowEl.appendChild(createSeatElement(seatData));
+    }
+
     subSection.appendChild(rowEl);
   });
   container.appendChild(subSection);
 }
-
 // 座席要素を作成する関数
 function createSeatElement(seat) {
   const el = document.createElement('div'); // 新しい座席要素を作成
