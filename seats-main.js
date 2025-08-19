@@ -52,6 +52,13 @@ window.onload = async () => {
   }
 };
 
+// 最終アップデート時間を取得
+function updateLastUpdateTime() {
+  const lastUpdateEl = document.getElementById('last-update');
+  const now = new Date();
+  lastUpdateEl.textContent = `最終更新: ${now.toLocaleTimeString('ja-JP')}`;
+}
+
 // 座席マップを描画する関数
 function drawSeatMap(seatMap) {
   const container = document.getElementById('seat-map-container');
