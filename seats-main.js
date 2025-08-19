@@ -1,3 +1,4 @@
+import GasAPI from './api.js';
 /**
  * 座席選択画面のメイン処理
  */
