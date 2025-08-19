@@ -212,6 +212,16 @@ function showMessage(message) {
   alert(message);
 }
 
+// HTMLドキュメントの読み込みが完了したら実行
+document.addEventListener('DOMContentLoaded', () => {
+    // id="menu-btn" の要素を取得
+    const menuBtn = document.getElementById('menu-btn');
+    // 要素が存在すれば、クリックされたら toggleSidebar 関数を呼び出すように設定
+    if (menuBtn) {
+        menuBtn.addEventListener('click', toggleSidebar);
+    }
+});
+
 // モーダル外クリックで閉じる
 document.addEventListener('click', function(event) {
   const modal = document.getElementById('mode-change-modal');
