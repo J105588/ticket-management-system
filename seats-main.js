@@ -1,4 +1,5 @@
 import GasAPI from './api.js';
+import { loadSidebar } from './sidebar.js';
 /**
  * 座席選択画面のメイン処理
  */
