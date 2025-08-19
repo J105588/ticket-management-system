@@ -66,9 +66,9 @@
     </div>
   </div>
 
-  <script src="config.js"></script>
-  <script src="api.js"></script>
-  <script src="sidebar.js"></script>
-  <script src="seats-main.js"></script>
+  <script src="config.js"></script> <!-- configはグローバル変数のままなのでこのままでOK -->
+<script type="module" src="api.js"></script>
+<script type="module" src="sidebar.js"></script>
+<script type="module" src="seats-main.js"></script> 
 </body>
 </html>
