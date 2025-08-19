@@ -32,27 +32,35 @@ window.onload = async () => {
 
   try {
     const seatData = await GasAPI.getSeatData(GROUP, DAY, TIMESLOT, IS_ADMIN);
-    if (seatData.error) {
-      alert('データ読み込み失敗: ' + seatData.error);
+    
+    // デバッグログを追加
+    console.log("Received seatData:", seatData);
+
+    if (seatData.success === false) {
+      alert('データ読み込み失敗: ' + seatData.error);  // 修正: successに基づくチェック
       return;
     }
-    drawSeatMap(seatData);
+    
+    // 必要に応じてseatData.dataの形式を確認
+    drawSeatMap(seatData.data); // データを描画する関数を呼び出す
     updateLastUpdateTime();
   } catch (error) {
     alert('サーバー通信失敗: ' + error.message);
   }
 };
 
+// 座席マップを描画する関数
 function drawSeatMap(seatMap) {
   const container = document.getElementById('seat-map-container');
   container.innerHTML = ''; // 既存の座席マップをクリア
 
   // すべての座席をループして座席を描画
   Object.entries(seatMap).forEach(([seatId, seat]) => {
-    const seatElement = document.createElement('div');
+    // デバッグログ: 各座席IDと座席の状態を確認
+    console.log("Processing seat:", seatId, seat);
     
-    // seat.id を直接使用するのではなく、seatIdを利用
-    seatElement.className = `seat ${seat.status}`;
+    const seatElement = document.createElement('div');
+    seatElement.className = `seat ${seat.status}`; // seat.status からスタイルを設定
     seatElement.innerText = `Seat ${seatId}`; // seatId（例: 'A1'）を表示します。
 
     // イベントリスナーを追加
@@ -60,6 +68,7 @@ function drawSeatMap(seatMap) {
       if (seat.status === 'available') {
         selectedSeats.push(seatId); // 選択された座席IDを追加
         seatElement.classList.add('selected'); // 選択されたスタイルを追加
+        console.log("Selected seat:", seatId); // デバッグログ: 選択された座席IDを出力
       }
     };
 
