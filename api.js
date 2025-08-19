@@ -15,11 +15,10 @@ class GasAPI {
     debugLog(`API Call (POST): ${functionName}`, params);
 
     // GASのウェブアプリURLをconfig.jsから取得
-    if (!window.GAS_API_URL) {
-      const errorMessage = "GASのAPI URLが定義されていません(GAS_API_URL)。config.jsを確認してください。";
-      console.error(errorMessage);
-      throw new Error(errorMessage);
-    }
+    if (typeof GAS_API_URL === 'undefined' || !GAS_API_URL) {
+    const errorMessage = "GASのAPI URLが定義されていないか、空です。config.jsを確認してください。";
+    console.error(errorMessage);
+    throw new Error(errorMessage);
 
     // 1. POSTで送信するデータオブジェクトを作成
     const postData = {
