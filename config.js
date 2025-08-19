@@ -4,7 +4,7 @@
  */
 
 // GAS Web App URLに置き換え
-const GAS_API_URL = "https://script.google.com/macros/s/AKfycbylQq1kNBETzAYT0DMt3wc6skurV6cue5hxqLPSgGOTAdIRp_ezqK_Gn8K-5VMB_Q4q/exec";
+const GAS_API_URL = "https://script.google.com/macros/s/AKfycbylQq1kNBETzAYT0DMt3wc6skurV6cue5hxqLPSgGOTAdIRp_ezqK_Gn8K-5VMB_Q4q/exec";//memo
 
 // デバッグモード（開発時はtrue、本番はfalse）
 const DEBUG_MODE = true;
