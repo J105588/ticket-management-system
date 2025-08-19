@@ -42,7 +42,17 @@ export function loadSidebar() {
   const container = document.getElementById('sidebar-container');
   if (container) {
     container.innerHTML = sidebarHTML;
-    updateModeDisplay();
+    updateModeDisplay(); // ここでモード表示を更新
+  }
+}
+
+export function updateModeDisplay() {
+  const currentModeDisplay = document.getElementById('current-mode-display');
+  const selectedMode = document.querySelector('input[name="mode"]:checked');
+  
+  // 現在選択されているモードを表示
+  if (currentModeDisplay && selectedMode) {
+    currentModeDisplay.innerText = selectedMode.nextSibling.textContent; // ラベルのテキストを表示
   }
 }
 
@@ -60,7 +70,8 @@ export function toggleSidebar() {
 }
 
 export function showModeChangeModal() {
-  // モード変更モーダルを表示する関数の実装をここに追加
+  // モード変更モーダルを表示する処理
+  document.getElementById("mode-change-modal").style.display = 'block';
 }
 
 export async function applyModeChange() {
