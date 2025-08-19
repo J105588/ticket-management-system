@@ -75,5 +75,21 @@ export function showModeChangeModal() {
 }
 
 export async function applyModeChange() {
-  // モード変更を適用する処理をここに追加
+  const selectedMode = document.querySelector('input[name="mode"]:checked').value;
+  const password = document.getElementById("mode-password").value;
+
+  try {
+    const result = await GasAPI.verifyModePassword(selectedMode, password);
+
+    if (result.success) {
+      // モード変更成功時の処理
+      document.getElementById("current-mode-display").textContent = selectedMode === 'admin' ? '管理者モード' : '通常モード';
+      closeModeModal(); // モード変更ダイアログを閉じる
+      location.reload(); // ページを再読み込みして変更を反映
+    } else {
+      alert("無効なパスワードです。");
+    }
+  } catch (error) {
+    alert("エラーが発生しました: " + error.message);
+  }
 }
