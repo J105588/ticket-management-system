@@ -19,13 +19,16 @@ class GasAPI {
     
     // 2. 引数の配列をJSON文字列に変換し、URLエンコードして追加
     queryParams.append('params', JSON.stringify(params));
+    
+    // 3. セキュリティチェック用のoriginパラメータを追加
+    queryParams.append('origin', 'github');
 
     // config.jsのGAS_API_URLを使ってリクエストURLを生成
     const requestUrl = `${GAS_API_URL}?${queryParams.toString()}`;
     debugLog('Request URL:', requestUrl);
     
     try {
-      // 3. fetchをGETリクエストとして実行
+      // 4. fetchをGETリクエストとして実行
       const response = await fetch(requestUrl);
       
       if (!response.ok) {
