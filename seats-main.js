@@ -1,5 +1,6 @@
 import GasAPI from './api.js';
-import { loadSidebar } from './sidebar.js';
+//import { loadSidebar } from './sidebar.js';
+import { loadSidebar, toggleSidebar } from './sidebar.js';
 /**
  * 座席選択画面のメイン処理
  */
@@ -372,3 +373,17 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('beforeunload', () => {
   stopAutoRefresh();
 });
+
+// --- グローバル関数の登録 ---
+// HTML内の onclick="..." から呼び出せるように、モジュール内で定義した関数を
+// windowオブジェクト（グローバルスコープ）に登録します。
+// window.onload の中で定義されている関数も、外から参照できるようになります。
+window.promptForAdminPassword = promptForAdminPassword;
+window.confirmReservation = confirmReservation;
+window.toggleSettings = toggleSettings;
+window.closeSettings = closeSettings;
+window.manualRefresh = manualRefresh;
+window.toggleAutoRefresh = toggleAutoRefresh;
+
+// sidebar.js由来の関数も、このページのHTMLから使えるように登録します。
+window.toggleSidebar = toggleSidebar;
