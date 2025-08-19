@@ -57,23 +57,52 @@ function drawSeatMap(seatMap) {
   const container = document.getElementById('seat-map-container');
   container.innerHTML = ''; // 既存の座席マップをクリア
 
-  Object.entries(seatMap).forEach(([seatId, seat]) => {
-    console.log("Processing seat:", seatId, seat);
+  const layout = {
+    main: { rows: ['A', 'B', 'C', 'D'], cols: 12, passageAfter: 6 },
+    sub:  { rows: ['E'], cols: 12, passageAfter: 6 }
+  };
 
-    const seatElement = document.createElement('div');
-    seatElement.className = `seat ${seat.status}`;
-    seatElement.innerText = seatId; 
-
-    seatElement.onclick = () => {
-      if (seat.status === 'available') {
-        selectedSeats.push(seatId);
-        seatElement.classList.add('selected');
-        console.log("Selected seat:", seatId);
+  // メインセクションの描画
+  const mainSection = document.createElement('div');
+  mainSection.className = 'seat-section';
+  layout.main.rows.forEach(rowLabel => {
+    const rowEl = document.createElement('div');
+    rowEl.className = 'seat-row';
+    for (let i = 1; i <= layout.main.cols; i++) {
+      const seatId = rowLabel + i;
+      const seatData = seatMap[seatId] || { id: seatId, status: 'unavailable', name: null };
+      rowEl.appendChild(createSeatElement(seatData));
+      
+      if (i === layout.main.passageAfter) {
+        const passage = document.createElement('div');
+        passage.className = 'passage'; // 通路の追加
+        rowEl.appendChild(passage);
       }
-    };
-
-    container.appendChild(seatElement);
+    }
+    mainSection.appendChild(rowEl);
   });
+  container.appendChild(mainSection);
+
+  // サブセクションの描画
+  const subSection = document.createElement('div');
+  subSection.className = 'seat-section';
+  layout.sub.rows.forEach(rowLabel => {
+    const rowEl = document.createElement('div');
+    rowEl.className = 'seat-row';
+    for (let i = 1; i <= layout.sub.cols; i++) {
+      const seatId = rowLabel + i;
+      const seatData = seatMap[seatId] || { id: seatId, status: 'unavailable', name: null };
+      rowEl.appendChild(createSeatElement(seatData));
+      
+      if (i === layout.sub.passageAfter) {
+        const passage = document.createElement('div');
+        passage.className = 'passage'; // 通路の追加
+        rowEl.appendChild(passage);
+      }
+    }
+    subSection.appendChild(rowEl);
+  });
+  container.appendChild(subSection);
 }
 
 // ローダー表示制御
