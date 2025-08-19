@@ -229,3 +229,28 @@ document.addEventListener('click', function(event) {
     closeModeModal();
   }
 });
+
+// onclick="showModeChangeModal()" から呼び出せるように export を付けます。
+export function showModeChangeModal() {
+  // パスワード入力用のプロンプトを表示
+  const password = prompt("モード変更用のパスワードを入力してください:", "");
+
+  // キャンセルされたり空の場合は何もしない
+  if (password === null || password === "") {
+    return;
+  }
+  
+  // ここでパスワードを検証する必要があるが、一旦アラートでどのモードに行きたいかを表示する
+  // 本来は GasAPI.verifyModePassword(mode, password) を呼び出す
+  alert(`入力されたパスワード: ${password}\nここでパスワードを検証し、適切なページに遷移します。`);
+
+  // TODO: パスワード検証とページ遷移のロジックを実装する
+  // 例:
+  // if (password === 'admin_pass') {
+  //   window.location.href = 'index.html?mode=admin';
+  // } else if (password === 'walkin_pass') {
+  //   window.location.href = 'index.html?mode=walkin';
+  // } else {
+  //   alert('パスワードが違います。');
+  // }
+}
