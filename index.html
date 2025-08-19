@@ -33,11 +33,15 @@
     </main>
   </div>
 
-  <script src="config.js"></script>
-  <script src="sidebar.js"></script>
-  <script>
-    // サイドバーを読み込み
+  <script type="module">
+    // sidebar.js から、必要な関数だけをインポートする
+    import { loadSidebar, toggleSidebar } from './sidebar.js';
+
+    // サイドバーを読み込んでページに配置する
     loadSidebar();
+
+    // HTMLのonclick属性から呼び出せるように、関数をグローバルスコープ(window)に登録する
+    window.toggleSidebar = toggleSidebar;
   </script>
 </body>
 </html>
