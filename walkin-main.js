@@ -1,14 +1,11 @@
-/**
- * 当日券発行画面のメイン処理
- */
+import GasAPI from './api.js';
+import { loadSidebar } from './sidebar.js';
 
-// URLパラメータ取得
 const urlParams = new URLSearchParams(window.location.search);
 const GROUP = urlParams.get('group');
 const DAY = urlParams.get('day');
 const TIMESLOT = urlParams.get('timeslot');
 
-// 初期化
 window.onload = () => {
   // サイドバー読み込み
   loadSidebar();
@@ -51,7 +48,7 @@ async function issueWalkinTicket() {
         reservedSeatEl.textContent = response.seatId;
         reservationResult.classList.add('show');
       }
-      
+
       setTimeout(() => {
         walkinBtn.disabled = false;
         walkinBtn.textContent = '再度、空席を探して当日券を発行する';
