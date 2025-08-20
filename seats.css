@@ -1,40 +1,71 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  padding: 10px;
+}
+
+.container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
 .seat {
   border-radius: 5px;
-  display: flex; /* セル内で内容をフレックスで整列 */
+  display: flex;
   flex-direction: column;
-  justify-content: center; /* 中央揃え */
+  justify-content: center;
   align-items: center;
   font-weight: bold;
-  user-select: none; /* 選択を禁止 */
+  cursor: pointer;
   width: 50px;
   height: 50px;
   box-sizing: border-box;
-  transition: all 0.2s; /* ホバー時の反応 */
-  position: relative;
+  transition: all 0.2s;
 }
 
-/* 座席の状態別のスタイル */
 .seat.available {
-  background: #28a745; /* 空き席 */
-  color: #fff;
-  cursor: pointer; /* ポインタ */
-}
-
-.seat.available:hover {
-  background: #218838; /* ホバー時 */
-  transform: translateY(-2px); /* スペース調整 */
+  background: #28a745; /* 空き席の色 */
 }
 
 .seat.selected {
-  background: #007bff; /* 選択された座席 */
-  color: #fff;
-  box-shadow: 0 0 12px 2px #007bff; /* ハイライト */
-  transform: translateY(-2px);
+  background: #007bff; /* 選択された座席の色 */
+  box-shadow: 0 0 12px 2px #007bff; /* 選択時のハイライト */
 }
 
 .seat.reserved,
 .seat.to-be-checked-in,
 .seat.checked-in,
 .seat.unavailable {
-  cursor: not-allowed; /* カーソルを変更 */
+  cursor: not-allowed; /* カーソルを禁止に */
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.legend-item {
+  margin-right: 15px;
+}
+
+.submit-button {
+  background-color: #007bff; /* ボタンの色 */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #0056b3; /* ホバー時の色 */
 }
