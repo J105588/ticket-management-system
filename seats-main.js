@@ -41,7 +41,7 @@ window.onload = async () => {
       return;
     }
 
-    drawSeatMap(seatData.seatMap); // 座席マップを描画
+    drawSeatMap(seatData.data); // 座席マップを描画
     updateLastUpdateTime(); // 最終更新時間を更新
   } catch (error) {
     alert('サーバー通信失敗: ' + error.message);
@@ -60,11 +60,7 @@ function updateLastUpdateTime() {
 // ローダー表示制御
 function showLoader(visible) {
   const loader = document.getElementById('loading-modal');
-  if (loader) {
-    loader.style.display = visible ? 'block' : 'none'; // ローダーを表示または非表示
-  } else {
-    console.warn('Loader element not found');
-  }
+  loader.style.display = visible ? 'block' : 'none';
 }
 
 // 座席マップを描画する関数
