@@ -1,7 +1,7 @@
 /**
- * GAS APIとの通信を行うモジュール (POSTリクエスト対応版)
+ * GAS APIとの通信を行うモジュール
  * config.jsに定義されたGAS_API_URLとdebugLogを使用します。
- * POSTリクエストを利用してCORSの問題を回避します。
+ * CORSエラー解消のため、Content-Typeを変更しています。
  */
 function debugLog(message, data) {
   console.log('[DEBUG]', message, data);
@@ -23,7 +23,7 @@ class GasAPI {
     try {
       const response = await fetch(GAS_API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json;charset=utf-8' },
+        headers: { 'Content-Type': 'text/plain' }, // Content-Typeをtext/plainに変更
         body: JSON.stringify(postData),
         redirect: 'follow'
       });
