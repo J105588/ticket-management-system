@@ -1,9 +1,6 @@
 import GasAPI from './api.js';
-import { loadSidebar, toggleSidebar } from './sidebar.js';
+import { loadSidebar } from './sidebar.js';
 
-/**
- * 座席選択画面のメイン処理
- */
 const urlParams = new URLSearchParams(window.location.search);
 const GROUP = urlParams.get('group');
 const DAY = urlParams.get('day');
@@ -11,7 +8,6 @@ const TIMESLOT = urlParams.get('timeslot');
 const IS_ADMIN = urlParams.get('admin') === 'true';
 
 let selectedSeats = [];
-let isAutoRefreshEnabled = true;
 
 // 初期化
 window.onload = async () => {
@@ -50,14 +46,13 @@ window.onload = async () => {
   }
 };
 
-// 最終アップデート時間を取得
+// UIの表示更新
 function updateLastUpdateTime() {
   const lastUpdateEl = document.getElementById('last-update');
   const now = new Date();
   lastUpdateEl.textContent = `最終更新: ${now.toLocaleTimeString('ja-JP')}`;
 }
 
-// ローダー表示制御
 function showLoader(visible) {
   const loader = document.getElementById('loading-modal');
   loader.style.display = visible ? 'block' : 'none';
@@ -73,7 +68,6 @@ function drawSeatMap(seatMap) {
     sub:  { rows: ['E'], frontCols: 3, backCols: 3, passagePosition: 3 }
   };
 
-  // メインセクションの描画
   const mainSection = document.createElement('div');
   mainSection.className = 'seat-section';
 
@@ -87,7 +81,7 @@ function drawSeatMap(seatMap) {
       
       if (i === layout.main.passageAfter) {
         const passage = document.createElement('div');
-        passage.className = 'passage'; // 通路の追加
+        passage.className = 'passage';
         rowEl.appendChild(passage);
       }
     }
@@ -95,7 +89,6 @@ function drawSeatMap(seatMap) {
   });
   container.appendChild(mainSection);
 
-  // サブセクション (E行) の描画
   const subSection = document.createElement('div');
   subSection.className = 'seat-section';
   
@@ -103,19 +96,16 @@ function drawSeatMap(seatMap) {
     const rowEl = document.createElement('div');
     rowEl.className = 'seat-row';
     
-    // E列の前半3席を描画
     for (let i = 1; i <= layout.sub.frontCols; i++) {
       const seatId = rowLabel + i;
       const seatData = seatMap[seatId] || { id: seatId, status: 'unavailable', name: null };
       rowEl.appendChild(createSeatElement(seatData));
     }
 
-    // 通路の追加
     const passage = document.createElement('div');
     passage.className = 'passage'; // E列の通路
     rowEl.appendChild(passage);
 
-    // E列の後半3席を描画
     for (let i = 1; i <= layout.sub.backCols; i++) {
       const seatId = rowLabel + (layout.sub.frontCols + i);
       const seatData = seatMap[seatId] || { id: seatId, status: 'unavailable', name: null };
@@ -129,7 +119,7 @@ function drawSeatMap(seatMap) {
 
 // 座席要素を作成する関数
 function createSeatElement(seat) {
-  const el = document.createElement('div'); // 新しい座席要素を作成
+  const el = document.createElement('div');
   el.className = `seat ${seat.status}`; // 状態に応じたクラスを設定
   el.dataset.id = seat.id; // データ属性に座席IDを設定
   el.innerHTML = `<span class="seat-id">${seat.id}</span>`; // 座席IDを表示
@@ -141,9 +131,7 @@ function createSeatElement(seat) {
 
   // 空いている座席の場合、クリックイベントを設定
   if (seat.status === 'available') {
-    el.onclick = () => {
-      toggleSeatSelection(seat.id); // 座席がクリックされた際の処理
-    };
+    el.onclick = () => toggleSeatSelection(seat.id);
   }
 
   return el; // 作成した座席要素を返す
@@ -157,9 +145,9 @@ function toggleSeatSelection(seatId) {
   const index = selectedSeats.indexOf(seatId);
   if (index > -1) { // 既に選択されている座席を解除
     selectedSeats.splice(index, 1);
-    el.classList.remove('selected'); // 無選択状態
+    el.classList.remove('selected');
   } else { // 新たに選択
     selectedSeats.push(seatId);
-    el.classList.add('selected'); // 選択状態
+    el.classList.add('selected');
   }
 }
