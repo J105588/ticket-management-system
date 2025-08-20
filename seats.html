@@ -9,9 +9,7 @@
   <link rel="stylesheet" href="seats.css">
 </head>
 <body>
-
   <div id="sidebar-container"></div>
-
   <div id="main-content">
     <div class="page-header">
       <span id="menu-btn" class="menu-btn">&#9776;</span>
@@ -24,7 +22,6 @@
     
     <div class="container">
       <button id="admin-login-btn" class="admin-login-btn" onclick="promptForAdminPassword()">管理者ログイン</button>
-
       <main>
         <div class="screen">舞台</div>
         <div id="seat-map-container" class="seat-map-container"></div>
@@ -40,32 +37,7 @@
       </main>
     </div>
   </div>
-
-  <!-- 設定パネル -->
-  <button class="settings-btn" onclick="toggleSettings()" id="settings-btn"></button>
-  <div class="overlay" id="overlay" onclick="closeSettings()"></div>
-  <div class="settings-panel" id="settings-panel">
-    <h4>設定</h4>
-    <div class="refresh-controls">
-      <button id="refresh-btn" class="refresh-btn" onclick="manualRefresh()">手動更新</button>
-      <div class="auto-refresh-toggle">
-        <span>自動更新</span>
-        <label class="switch">
-          <input type="checkbox" id="auto-refresh-toggle" checked onchange="toggleAutoRefresh()">
-          <span class="slider"></span>
-        </label>
-      </div>
-    </div>
-    <div id="last-update" class="last-update">最終更新: --:--</div>
-  </div>
-
-  <div id="loading-modal" class="modal" style="display: none;">
-    <div class="modal-content" style="text-align: center;">
-      <div class="spinner"></div>
-      <p>処理中です...</p>
-    </div>
-  </div>
-
+  
   <script src="config.js"></script>
   <script type="module" src="api.js"></script>
   <script type="module" src="sidebar.js"></script>
