@@ -1,71 +1,63 @@
 body {
-  font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-.page-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #f8f9fa;
-  padding: 10px;
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    text-align: center;
 }
 
-.container {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
+main {
+    padding: 16px;
+}
+
+.seat-map {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 .seat {
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  cursor: pointer;
-  width: 50px;
-  height: 50px;
-  box-sizing: border-box;
-  transition: all 0.2s;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
 }
 
 .seat.available {
-  background: #28a745; /* 空き席の色 */
+    background-color: #4CAF50; /* 空席 */
 }
 
-.seat.selected {
-  background: #007bff; /* 選択された座席の色 */
-  box-shadow: 0 0 12px 2px #007bff; /* 選択時のハイライト */
+.seat.reserved {
+    background-color: #FF9800; /* 確保済 */
 }
 
-.seat.reserved,
-.seat.to-be-checked-in,
-.seat.checked-in,
-.seat.unavailable {
-  cursor: not-allowed; /* カーソルを禁止に */
+.seat.checked-in {
+    background-color: #2196F3; /* チェックイン済み */
 }
 
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
-
-.legend-item {
-  margin-right: 15px;
-}
-
-.submit-button {
-  background-color: #007bff; /* ボタンの色 */
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.submit-button:hover {
-  background-color: #0056b3; /* ホバー時の色 */
+.modal {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
